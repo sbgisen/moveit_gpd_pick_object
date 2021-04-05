@@ -3,7 +3,7 @@
   <!-- 'node' gets passed in as an argument to this file -->
   <arg name="node" /> 
   
-  <arg name="caffe_path" value="$(find gpd)/caffe/15channels" />
+  <arg name="caffe_path" value="$(find gpd_ros)/models/caffe/15channels" />
   
   <param name="$(arg node)/use_gpu" value="true" /> <!-- if Caffe uses the GPU or CPU -->
   

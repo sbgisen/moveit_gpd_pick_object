@@ -11,7 +11,7 @@
     <arg name="node" value="detect_grasps" />
   </include>
 
-  <node name="detect_grasps" pkg="gpd" type="detect_grasps">
+  <node name="detect_grasps" pkg="gpd_ros" type="detect_grasps">
     <param name="finger_width" value="$(arg finger_width)" />
     <param name="hand_outer_diameter" value="$(arg hand_outer_diameter)" />
     <param name="hand_depth" value="$(arg hand_depth)" />
