@@ -10,4 +10,4 @@
     ```
 2. install eigen 3.0+
 3. install [gpd](https://github.com/sbgisen/gpd)
-4. build [gpd_ros](https://github.com/sbgisen/gpd_ros)
+4. build [gpd_grasp_msgs](https://github.com/TAMS-Group/gpd_grasp_msgs)

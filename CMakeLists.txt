@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   sensor_msgs
-  gpd_ros
+  gpd_grasp_msgs
   tf
   pcl_ros
   message_filters
