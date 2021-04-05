@@ -3,6 +3,8 @@ project(moveit_gpd_pick_object)
 
 add_compile_options(-std=c++11)
 
+find_package(PCL 1.11 REQUIRED)
+
 find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   moveit_core
@@ -10,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sensor_msgs
   gpd_grasp_msgs
+  gpd_ros
   tf
   pcl_ros
   message_filters

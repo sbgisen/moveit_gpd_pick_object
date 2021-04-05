@@ -1,8 +1,8 @@
 #include <ros/ros.h>
 #include <moveit_msgs/GraspPlanning.h>
 #include <moveit_msgs/CollisionObject.h>
-#include <gpd_grasp_msgs/GraspConfigList.h>
-#include <gpd_grasp_msgs/GraspConfig.h>
+#include <gpd_ros/GraspConfigList.h>
+#include <gpd_ros/GraspConfig.h>
 #include <mutex>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
@@ -56,7 +56,7 @@ public:
     jointValuesToJointTrajectory(gripper.getNamedTargetValues("closed"), ros::Duration(2.0), grasp_candidate_.grasp_posture);
   }
 
-  void clustered_grasps_callback(const gpd_grasp_msgs::GraspConfigList::ConstPtr& msg)
+  void clustered_grasps_callback(const gpd_ros::GraspConfigList::ConstPtr& msg)
   {
     std::lock_guard<std::mutex> lock(m_);
     ros::Time grasp_stamp = msg->header.stamp;
@@ -67,9 +67,9 @@ public:
     for(auto grasp:msg->grasps)
     {
       // shift the grasp according to the offset parameter
-      grasp.top.x = grasp.top.x + grasp_offset_ * grasp.approach.x;
-      grasp.top.y = grasp.top.y + grasp_offset_ * grasp.approach.y;
-      grasp.top.z = grasp.top.z + grasp_offset_ * grasp.approach.z;
+      grasp.position.x = grasp.position.x + grasp_offset_ * grasp.approach.x;
+      grasp.position.y = grasp.position.y + grasp_offset_ * grasp.approach.y;
+      grasp.position.z = grasp.position.z + grasp_offset_ * grasp.approach.z;
 
       if(grasp_boundry_check(grasp))
       {
@@ -85,13 +85,13 @@ public:
     }
   }
 
-  bool grasp_boundry_check(gpd_grasp_msgs::GraspConfig &grasp)
+  bool grasp_boundry_check(gpd_ros::GraspConfig &grasp)
   {
     geometry_msgs::PointStamped grasp_point;
     geometry_msgs::PointStamped transformed_grasp_point;
     grasp_point.header.frame_id = frame_id_;
  
-    grasp_point.point = grasp.top;
+    grasp_point.point = grasp.position;
     // transform the grasp point into the frame of the bound to make the boundary check easier
     try
     {
@@ -110,7 +110,7 @@ public:
          && transformed_grasp_point.point.z > -z_bound_*0.5+z_bound_offset_);
   }
 
-  geometry_msgs::Pose gpd_grasp_to_pose(gpd_grasp_msgs::GraspConfig &grasp)
+  geometry_msgs::Pose gpd_grasp_to_pose(gpd_ros::GraspConfig &grasp)
   {
     geometry_msgs::Pose pose;
     tf::Matrix3x3 orientation(grasp.approach.x, grasp.binormal.x, grasp.axis.x,
@@ -121,7 +121,7 @@ public:
     orientation.getRotation(orientation_quat);
     tf::quaternionTFToMsg(orientation_quat, pose.orientation);
 
-    pose.position = grasp.top;
+    pose.position = grasp.position;
 
     return pose;
   }
