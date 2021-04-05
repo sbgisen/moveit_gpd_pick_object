@@ -12,7 +12,7 @@
 #include <moveit_msgs/GetPlanningScene.h>
 #include <moveit_msgs/PickupActionResult.h>
 
-#include <manipulation_msgs/GraspPlanning.h>
+// #include <manipulation_msgs/GraspPlanning.h>
 
 class PickObject
 {
